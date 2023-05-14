@@ -63,6 +63,7 @@ namespace BluetoothSerialCommunicationTool
                 }
                 catch(Exception ex)
                 {
+                    PlaySound("SoundFile/Erroron.wav");
                     MessageBox.Show("エラーが発生しました: " + ex.Message);
                 }
             }
@@ -80,11 +81,29 @@ namespace BluetoothSerialCommunicationTool
                 {
                     olddata = data;
                     SentdataValue.Text = data;
-                    serialPortCtrl.WriteLine(data);  //データ書き込み
+                    if (ByteSetting.Checked == true)
+                    {
+                        int dataInt;
+                        if (int.TryParse(data, out dataInt)){
+                            int.TryParse(data, out dataInt);
+                            Convert.ToInt32(dataInt);
+                            byte[] dataByte = BitConverter.GetBytes(dataInt);
+                            serialPortCtrl.Write(dataByte, 0, data.Length);  //データ書き込み
+                            TextBoxItem = new ListViewItem(" > " + dataInt);
+                            TextBoxLog.Items.Add(TextBoxItem);
+                        }
+                    }
+                    else
+                    {
+                        serialPortCtrl.WriteLine(data);  //データ書き込み
+                        TextBoxItem = new ListViewItem(" > " + data);
+                        TextBoxLog.Items.Add(TextBoxItem);
+                    }
                 }
             }
             catch (Exception ex)
             {
+                PlaySound("SoundFile/Erroron.wav");
                 Debug.WriteLine("エラーが発生しました: " + ex.Message);
             }
         }
@@ -93,15 +112,6 @@ namespace BluetoothSerialCommunicationTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void HIGHbtn_Click(object sender, EventArgs e)
-        {
-            Send("1");
-        }
-
-        private void LOWbtn_Click(object sender, EventArgs e)
-        {
-            Send("0");
-        }
 
         private void MainTimer_Tick(object sender, EventArgs e)
         {
@@ -109,8 +119,18 @@ namespace BluetoothSerialCommunicationTool
             {
                 ConnectName.Text = serialPortCtrl.PortName;
                 BaudRateValue.Text = serialPortCtrl.BaudRate.ToString();
+                if(ByteSetting.Checked == false)
                 EncodingTitle.Text = serialPortCtrl.Encoding.ToString();
+                else
+                    EncodingTitle.Text = "byte";
 
+
+            }
+            else
+            {
+                ConnectName.Text = "";
+                BaudRateValue.Text = "";
+                EncodingTitle.Text = "";
             }
             if (GameControllSetting.Checked)
             {
@@ -244,8 +264,6 @@ namespace BluetoothSerialCommunicationTool
             else if (e.KeyData == Keys.Enter)
             {
                 Send(TextBox.Text);
-                TextBoxItem = new ListViewItem(" > " + TextBox.Text);
-                TextBoxLog.Items.Add(TextBoxItem);
                 if (EmptyBoxSetting.Checked)
                 {
                     TextBox.Text = "";
@@ -266,6 +284,377 @@ namespace BluetoothSerialCommunicationTool
         private void CloseBtn_Click(object sender, EventArgs e)
         {
             serialPortCtrl.Close();
+        }
+
+        private void AllClear_MouseEnter(object sender, EventArgs e)
+        {
+            AllClear.BackColor = Color.LightGray;
+            PlaySound("SoundFile/Vibes1A.wav");
+        }
+
+        private void AllClear_MouseLeave(object sender, EventArgs e)
+        {
+            AllClear.BackColor = SystemColors.Control;
+        }
+
+        private void AllClear_Click(object sender, EventArgs e)
+        {
+            TextBoxLog.Items.Clear();
+        }
+
+        private void SerialPortTitle_Click(object sender, EventArgs e)
+        {
+            PlaySound("SoundFile/ououolu.wav");
+        }
+
+        private void InfoPage_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void HideHello_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AutomaticSendbtn_MouseEnter(object sender, EventArgs e)
+        {
+            AutomaticSendbtn.BackColor = Color.LightGray;
+            PlaySound("SoundFile/Vibes1B.wav");
+        }
+
+        private void AutomaticSendbtn_MouseLeave(object sender, EventArgs e)
+        {
+            AutomaticSendbtn.BackColor = SystemColors.Control;
+        }
+
+        private void Panel1_MouseEnter(object sender, EventArgs e)
+        {
+            PlaySound("SoundFile/C#Bass.wav");
+            if (Panel1.BackColor == Color.Gainsboro)
+            {
+                Panel1.BackColor = Color.Silver;
+            }
+            if (Panel1.BackColor == Color.OrangeRed)
+            {
+                Panel1.BackColor = Color.Firebrick;
+            }
+        }
+
+        private void Panel1_MouseLeave(object sender, EventArgs e)
+        {
+            if (Panel1.BackColor == Color.Silver)
+            {
+                Panel1.BackColor = Color.Gainsboro;
+            }
+            if (Panel1.BackColor == Color.Firebrick)
+            {
+                Panel1.BackColor = Color.OrangeRed;
+            }
+        }
+
+        private void Panel2_MouseEnter(object sender, EventArgs e)
+        {
+            PlaySound("SoundFile/D#Bass.wav");
+            if (Panel2.BackColor == Color.Gainsboro)
+            {
+                Panel2.BackColor = Color.Silver;
+            }
+            if (Panel2.BackColor == Color.OrangeRed)
+            {
+                Panel2.BackColor = Color.Firebrick;
+            }
+        }
+
+        private void Panel2_MouseLeave(object sender, EventArgs e)
+        {
+            if (Panel2.BackColor == Color.Silver)
+            {
+                Panel2.BackColor = Color.Gainsboro;
+            }
+            if (Panel2.BackColor == Color.Firebrick)
+            {
+                Panel2.BackColor = Color.OrangeRed;
+            }
+        }
+
+        private void Panel3_MouseEnter(object sender, EventArgs e)
+        {
+            PlaySound("SoundFile/F#Bass.wav");
+            if (Panel3.BackColor == Color.Gainsboro)
+            {
+                Panel3.BackColor = Color.Silver;
+            }
+            if (Panel3.BackColor == Color.OrangeRed)
+            {
+                Panel3.BackColor = Color.Firebrick;
+            }
+        }
+
+        private void Panel3_MouseLeave(object sender, EventArgs e)
+        {
+            if (Panel3.BackColor == Color.Silver)
+            {
+                Panel3.BackColor = Color.Gainsboro;
+            }
+            if (Panel3.BackColor == Color.Firebrick)
+            {
+                Panel3.BackColor = Color.OrangeRed;
+            }
+        }
+
+        private void Panel4_MouseEnter(object sender, EventArgs e)
+        {
+            PlaySound("SoundFile/G#Bass.wav");
+            if (Panel4.BackColor == Color.Gainsboro)
+            {
+                Panel4.BackColor = Color.Silver;
+            }
+            if (Panel4.BackColor == Color.OrangeRed)
+            {
+                Panel4.BackColor = Color.Firebrick;
+            }
+        }
+
+        private void Panel4_MouseLeave(object sender, EventArgs e)
+        {
+            if (Panel4.BackColor == Color.Silver)
+            {
+                Panel4.BackColor = Color.Gainsboro;
+            }
+            if (Panel4.BackColor == Color.Firebrick)
+            {
+                Panel4.BackColor = Color.OrangeRed;
+            }
+        }
+
+        private void Panel5_MouseEnter(object sender, EventArgs e)
+        {
+            PlaySound("SoundFile/A#Bass.wav");
+            if (Panel5.BackColor == Color.Gainsboro)
+            {
+                Panel5.BackColor = Color.Silver;
+            }
+            if (Panel5.BackColor == Color.OrangeRed)
+            {
+                Panel5.BackColor = Color.Firebrick;
+            }
+        }
+
+        private void Panel5_MouseLeave(object sender, EventArgs e)
+        {
+            if (Panel5.BackColor == Color.Silver)
+            {
+                Panel5.BackColor = Color.Gainsboro;
+            }
+            if (Panel5.BackColor == Color.Firebrick)
+            {
+                Panel5.BackColor = Color.OrangeRed;
+            }
+        }
+
+        private void Panel6_MouseEnter(object sender, EventArgs e)
+        {
+            PlaySound("SoundFile/B#Bass.wav");
+            if (Panel6.BackColor == Color.Gainsboro)
+            {
+                Panel6.BackColor = Color.Silver;
+            }
+            if (Panel6.BackColor == Color.OrangeRed)
+            {
+                Panel6.BackColor = Color.Firebrick;
+            }
+        }
+
+        private void Panel6_MouseLeave(object sender, EventArgs e)
+        {
+            if (Panel6.BackColor == Color.Silver)
+            {
+                Panel6.BackColor = Color.Gainsboro;
+            }
+            if (Panel6.BackColor == Color.Firebrick)
+            {
+                Panel6.BackColor = Color.OrangeRed;
+            }
+        }
+
+        private void Panel7_MouseEnter(object sender, EventArgs e)
+        {
+            PlaySound("SoundFile/2C#Bass.wav");
+            if (Panel7.BackColor == Color.Gainsboro)
+            {
+                Panel7.BackColor = Color.Silver;
+            }
+            if (Panel7.BackColor == Color.OrangeRed)
+            {
+                Panel7.BackColor = Color.Firebrick;
+            }
+        }
+
+        private void Panel7_MouseLeave(object sender, EventArgs e)
+        {
+            if (Panel7.BackColor == Color.Silver)
+            {
+                Panel7.BackColor = Color.Gainsboro;
+            }
+            if (Panel7.BackColor == Color.Firebrick)
+            {
+                Panel7.BackColor = Color.OrangeRed;
+            }
+        }
+
+        private void Panel8_MouseEnter(object sender, EventArgs e)
+        {
+            PlaySound("SoundFile/2D#Bass.wav");
+            if (Panel8.BackColor == Color.Gainsboro)
+            {
+                Panel8.BackColor = Color.Silver;
+            }
+            if (Panel8.BackColor == Color.OrangeRed)
+            {
+                Panel8.BackColor = Color.Firebrick;
+            }
+        }
+
+        private void Panel8_MouseLeave(object sender, EventArgs e)
+        {
+            if (Panel8.BackColor == Color.Silver)
+            {
+                Panel8.BackColor = Color.Gainsboro;
+            }
+            if (Panel8.BackColor == Color.Firebrick)
+            {
+                Panel8.BackColor = Color.OrangeRed;
+            }
+        }
+        int SendAutoC;
+        private void Panel1_Click(object sender, EventArgs e)
+        {
+            if (Panel1.BackColor == Color.Silver && SendAutoC == 0)
+            {
+                Panel1.BackColor = Color.Firebrick;
+                SendAutoC = 1;
+            }
+            else if(Panel1.BackColor == Color.Firebrick)
+            {
+                SendAutoC = 0;
+                Panel1.BackColor = Color.Silver;
+            }
+        }
+
+        private void Panel2_Click(object sender, EventArgs e)
+        {
+            if (Panel2.BackColor == Color.Silver && SendAutoC == 0)
+            {
+                Panel2.BackColor = Color.Firebrick;
+                SendAutoC = 2;
+            }
+            else if (Panel2.BackColor == Color.Firebrick)
+            {
+                SendAutoC = 0;
+                Panel2.BackColor = Color.Silver;
+            }
+            
+        }
+
+        private void Panel3_Click(object sender, EventArgs e)
+        {
+            if (Panel3.BackColor == Color.Silver && SendAutoC == 0)
+            {
+                Panel3.BackColor = Color.Firebrick;
+                SendAutoC = 3;
+            }
+            else if (Panel3.BackColor == Color.Firebrick)
+            {
+                SendAutoC = 0;
+                Panel3.BackColor = Color.Silver;
+            }
+        }
+
+        private void Panel4_Click(object sender, EventArgs e)
+        {
+            if (Panel4.BackColor == Color.Silver && SendAutoC == 0)
+            {
+                Panel4.BackColor = Color.Firebrick;
+                SendAutoC = 4;
+            }
+            else if (Panel4.BackColor == Color.Firebrick)
+            {
+                SendAutoC = 0;
+                Panel4.BackColor = Color.Silver;
+            }
+        }
+
+        private void Panel5_Click(object sender, EventArgs e)
+        {
+            if (Panel5.BackColor == Color.Silver && SendAutoC == 0)
+            {
+                Panel5.BackColor = Color.Firebrick;
+                SendAutoC = 5;
+            }
+            else if (Panel5.BackColor == Color.Firebrick)
+            {
+                SendAutoC = 0;
+                Panel5.BackColor = Color.Silver;
+            }
+            
+        }
+
+        private void Panel6_Click(object sender, EventArgs e)
+        {
+            if (Panel6.BackColor == Color.Silver && SendAutoC == 0)
+            {
+                Panel6.BackColor = Color.Firebrick;
+                SendAutoC = 6;
+            }
+            else if (Panel6.BackColor == Color.Firebrick)
+            {
+                SendAutoC = 0;
+                Panel6.BackColor = Color.Silver;
+            }
+        }
+
+        private void Panel7_Click(object sender, EventArgs e)
+        {
+            if (Panel7.BackColor == Color.Silver && SendAutoC == 0)
+            {
+                Panel7.BackColor = Color.Firebrick;
+                SendAutoC = 7;
+            }
+            else if (Panel7.BackColor == Color.Firebrick)
+            {
+                SendAutoC = 0;
+                Panel7.BackColor = Color.Silver;
+            }
+        }
+
+        private void Panel8_Click(object sender, EventArgs e)
+        {
+            if (Panel8.BackColor == Color.Silver && SendAutoC == 0)
+            {
+                Panel8.BackColor = Color.Firebrick;
+                SendAutoC = 8;
+            }
+            else if (Panel8.BackColor == Color.Firebrick)
+            {
+                SendAutoC = 0;
+                Panel8.BackColor = Color.Silver;
+            }
+        }
+
+        private void AutomaticSendbtn_Click(object sender, EventArgs e)
+        {
+            Send(SendAutoC.ToString());
+        }
+
+        private void label14_Click(object sender, EventArgs e)
+        {
+            Send("203");
+        }
+
+        private void label16_Click(object sender, EventArgs e)
+        {
+            Send("100");
         }
     }
 }
