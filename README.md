@@ -1,2 +1,20 @@
 # SerialCommunicationTool
-Software to simplify serial communication
+誰かが言いました、serial通信は古いと
+## 紹介
+arduinoを使うとき多くの方はシリアル通信を行い、pcとの通信をします。
+しかしarduino標準のシリアルモニターは使いにくいです
+このアプリケーションでは、シリアルモニターを改良した仕組みとなっています
+## code
+```
+public void Send(string data)
+```
+Send関数はデータを送るときに使用する関数です
+あなたがSend関数に1を入れ送信すれば、arduinoは"1"(string)を受け取ります
+設定タブの、バイトで送るようにすれば、arduinoは1(int)と受け取ります
+## 対象
+arduinoを使用している方またはシリアル通信を使いたい方へ
+## 最後
+誰かが言いました、serial通信は古いと
+なんでこんなソフトを作ったのかと
+作った理由は誰かのためになりたいのではない
+自分が使うから作ったんだ
